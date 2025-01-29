@@ -1,0 +1,85 @@
+﻿@model BillingApp.Models.AppUser
+
+<form asp-action="Register" asp-controller="Registration" method="post">
+    <div>
+        <label>First Name</label>
+        <input asp-for="FirstName" />
+    </div>
+
+    <div>
+        <label>Last Name</label>
+        <input asp-for="LastName" />
+    </div>
+
+    <div>
+        <label>Email</label>
+        <input asp-for="Email" />
+    </div>
+
+    <div>
+        <label>Username</label>
+        <input asp-for="Username" />
+    </div>
+
+    <div>
+        <label>Password</label>
+        <input asp-for="Password" type="password" />
+    </div>
+
+    <div>
+        <label>Property</label>
+        <select asp-for="Property">
+            <option value="Admin">admin</option>
+            <option value="Client">client</option>
+            <option value="Seller">seller</option>
+        </select>
+    </div>
+
+    <!-- Client-specific fields -->
+    <div id="clientFields" style="display:none;">
+        <div>
+            <label>AFM</label>
+            <input type="text" id="AFM" name="afm" />
+        </div>
+
+        <div>
+            <label>Phone Number</label>
+            <input type="text" id="PhoneNumber" name="phoneNumber" />
+        </div>
+
+        <div>
+            <label>Program Name</label>
+            <select id="ProgramName" name="programName">
+                @if (ViewBag.ProgramNames != null)
+                {
+                    foreach (var program in (List<string>)ViewBag.ProgramNames)
+                    {
+                        <option value="@program">@program</option>
+                    }
+                }
+            </select>
+
+        </div>
+    </div>
+
+    <button type="submit">Register</button>
+</form>
+
+<script>
+    const propertySelect = document.querySelector('[name="Property"]');
+    const clientFields = document.getElementById('clientFields');
+
+    propertySelect.addEventListener('change', function () {
+        if (this.value === 'client') {
+            clientFields.style.display = 'block';
+        } else {
+            clientFields.style.display = 'none';
+
+            // Clear client-specific fields
+            document.getElementById('AFM').value = '';
+            document.getElementById('PhoneNumber').value = '';
+            document.getElementById('ProgramName').selectedIndex = 0;
+        }
+    });
+</script>
+

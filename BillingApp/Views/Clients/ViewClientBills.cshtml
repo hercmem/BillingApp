@@ -1,0 +1,32 @@
+﻿@model List<ClientBillViewModel>
+
+@{
+    ViewData["Title"] = "Client Bills";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Program Name</th>
+                <th>Costs</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bill in Model)
+            {
+                <tr>
+                    <td>@bill.ProgramName</td>
+                    <td>@bill.Costs</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No bills found for this client.</p>
+}

@@ -1,0 +1,10 @@
+﻿@model IEnumerable<string>
+
+<h2>Call History</h2>
+
+<ul class="list-group">
+    @foreach (var description in Model)
+    {
+        <li class="list-group-item">@description</li>
+    }
+</ul>

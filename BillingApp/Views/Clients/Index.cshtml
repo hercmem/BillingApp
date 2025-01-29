@@ -1,0 +1,67 @@
+﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<BillingApp.Models.Client>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>
+                AFM
+            </th>
+            <th>
+                Phone Number
+            </th>
+            <th>
+                Full Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Afm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FullName)
+            </td>
+            <td>
+                <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@item.ClientId">Edit</a>
+                <a class="btn btn-success" role="button" asp-action="Details" asp-route-id="@item.ClientId">Details</a>
+                <a class="btn btn-warning" role="button" asp-action="Delete" asp-route-id="@item.ClientId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+<!-- Output a paging control that the lets the user navigation to the previous page, next page, etc.-->
+<nav>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, search = ViewData["CurrentFilter"] }), new PagedListRenderOptions()
+{
+    ActiveLiElementClass = "Active",
+    PageClasses = new[] { "page-link" },
+    LiElementClasses = new[] { "page-item" },
+    UlElementClasses = new[] { "pagination", "justify-content-center", "mt-3" },
+    LinkToNextPageFormat = "Next",
+    LinkToPreviousPageFormat = "Previous",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+})
+</nav>
+
+

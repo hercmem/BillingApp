@@ -1,0 +1,62 @@
+﻿@model BillingApp.Models.Client
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Client</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Afm)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Afm)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumberNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumberNavigation.PhoneNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.User.FullName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.User.FullName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ClientId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+@if (Model.PhoneNumberNavigation?.Bills?.Any() == true)
+{
+    <div>
+        <h4>Bills for @Model.PhoneNumberNavigation.PhoneNumber</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bill in Model.PhoneNumberNavigation.Bills)
+                {
+                    <tr>
+                        <td>@bill.Costs</td>
+                        <td>
+                            <a asp-controller="bills" asp-action="Edit" asp-route-id="@bill.BillId">Edit</a> |
+                            <a asp-controller="bills" asp-action="Details" asp-route-id="@bill.BillId">Details</a> |
+                            <a asp-controller="bills" asp-action="Delete" asp-route-id="@bill.BillId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
