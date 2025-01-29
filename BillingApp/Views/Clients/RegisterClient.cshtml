@@ -1,0 +1,63 @@
+﻿@model BillingApp.Models.RegisterClientViewModel
+
+@{
+    ViewData["Title"] = "Register New Client";
+}
+
+<h2>Register a New Client</h2>
+
+<form asp-action="RegisterClient" asp-controller="Clients" method="post">
+    <div>
+        <label>First Name</label>
+        <input asp-for="FirstName" required />
+    </div>
+
+    <div>
+        <label>Last Name</label>
+        <input asp-for="LastName" required />
+    </div>
+
+    <div>
+        <label>Email</label>
+        <input asp-for="Email" required />
+    </div>
+
+    <div>
+        <label>Username</label>
+        <input asp-for="Username" required />
+    </div>
+
+    <div>
+        <label>Password</label>
+        <input asp-for="Password" type="password" required />
+    </div>
+
+    <div>
+        <label>Property</label>
+        <input asp-for="Property" value="client" readonly />
+    </div>
+
+    <div>
+        <label>AFM</label>
+        <input asp-for="Afm" required />
+    </div>
+
+    <div>
+        <label>Phone Number</label>
+        <input asp-for="PhoneNumber" required />
+    </div>
+
+    <div>
+        <label>Program Name</label>
+        <select asp-for="ProgramName" required>
+            @foreach (var program in ViewBag.ProgramNames as List<string>)
+            {
+                <option value="@program">@program</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+<a asp-action="ClientList" asp-controller="Sellers" class="btn btn-secondary">Back to Client List</a>

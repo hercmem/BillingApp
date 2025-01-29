@@ -254,6 +254,76 @@ namespace BillingApp.Controllers
 
 
 
+        [HttpGet]
+        public IActionResult RegisterClient()
+        {
+            // Pass available programs for the dropdown
+            ViewBag.ProgramNames = GetProgramNames();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterClient(RegisterClientViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Create new AppUser (client)
+                var newUser = new AppUser
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    Username = model.Username,
+                    Password = model.Password, // Consider hashing the password
+                    Property = "client"
+                };
+
+                _context.AppUsers.Add(newUser);
+                await _context.SaveChangesAsync();
+
+                // Fetch the newly created user ID
+                var createdUser = await _context.AppUsers.FirstOrDefaultAsync(u => u.Username == model.Username);
+
+                if (createdUser != null)
+                {
+                    // Create new Client entry
+                    var newClient = new Client
+                    {
+                        UserId = createdUser.UserId,
+                        Afm = model.Afm,
+                        PhoneNumber = model.PhoneNumber
+                    };
+                    _context.Clients.Add(newClient);
+
+                    // Create new Phone entry
+                    var newPhone = new Phone
+                    {
+                        PhoneNumber = model.PhoneNumber,
+                        ProgramName = model.ProgramName
+                    };
+                    _context.Phones.Add(newPhone);
+
+                    await _context.SaveChangesAsync();
+                }
+
+                return RedirectToAction("ClientList", "Sellers"); // Redirect back to the client list
+            }
+
+            ViewBag.ProgramNames = GetProgramNames(); // Ensure programs are available in case of validation failure
+            return View(model);
+        }
+
+        private List<string> GetProgramNames()
+        {
+            return new List<string>
+            {
+                "Basic Plan", "Business Plan", "Family Plan", "Premium Plan",
+                "Standard Plan", "Student Plan", "Traveler Plan", "Unlimited Plan"
+            };
+        }
+
+
+
 
     }
 }
