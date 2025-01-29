@@ -207,11 +207,9 @@ namespace BillingApp.Controllers
 
         public async Task<IActionResult> ViewClientBills(int userId)
         {
-
-            // Fetch the client associated with the logged-in user
             var client = await _context.Clients
-                .Include(c => c.PhoneNumberNavigation) // Include related Phone data
-                .ThenInclude(p => p.Bills) // Include related Bills data
+                .Include(c => c.PhoneNumberNavigation)
+                .ThenInclude(p => p.Bills)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
 
             if (client == null)
@@ -219,16 +217,42 @@ namespace BillingApp.Controllers
                 return NotFound("Client not found.");
             }
 
-            // Prepare data for the view
             var clientBills = client.PhoneNumberNavigation.Bills
+                .Where(b => !b.IsPaid) // Only show unpaid bills
                 .Select(b => new ClientBillViewModel
                 {
+                    BillId = b.BillId,
                     ProgramName = client.PhoneNumberNavigation.ProgramName,
-                    Costs = b.Costs
+                    Costs = b.Costs,
+                    IsPaid = b.IsPaid
                 }).ToList();
 
             return View(clientBills);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> PayBill(int billId)
+        {
+            var bill = await _context.Bills
+                .Include(b => b.PhoneNumberNavigation) // Include Phone
+                .ThenInclude(p => p.Clients) // Include Clients collection
+                .FirstOrDefaultAsync(b => b.BillId == billId);
+
+            if (bill == null || bill.PhoneNumberNavigation == null || !bill.PhoneNumberNavigation.Clients.Any())
+            {
+                return NotFound("Bill or associated client not found.");
+            }
+
+            bill.IsPaid = true; // Mark as paid
+            await _context.SaveChangesAsync();
+
+            // Get the first client associated with this phone number
+            var client = bill.PhoneNumberNavigation.Clients.First();
+
+            return RedirectToAction(nameof(ViewClientBills), new { userId = client.UserId });
+        }
+
+
 
 
     }

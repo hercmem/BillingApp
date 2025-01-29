@@ -11,5 +11,7 @@ public partial class Bill
 
     public decimal Costs { get; set; }
 
+    public bool IsPaid { get; set; }
+
     public virtual Phone PhoneNumberNavigation { get; set; } = null!;
 }

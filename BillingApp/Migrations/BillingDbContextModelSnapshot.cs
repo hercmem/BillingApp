@@ -120,7 +120,7 @@ namespace BillingApp.Migrations
 
                     b.HasIndex("PhoneNumber");
 
-                    b.ToTable("Bills");
+                    b.ToTable("Bills", (string)null);
                 });
 
             modelBuilder.Entity("BillingApp.Models.BillsCall", b =>
@@ -137,7 +137,7 @@ namespace BillingApp.Migrations
 
                     b.HasIndex("CallId");
 
-                    b.ToTable("BillsCalls");
+                    b.ToTable("BillsCalls", (string)null);
                 });
 
             modelBuilder.Entity("BillingApp.Models.Call", b =>
@@ -155,7 +155,7 @@ namespace BillingApp.Migrations
 
                     b.HasKey("CallId");
 
-                    b.ToTable("Calls");
+                    b.ToTable("Calls", (string)null);
                 });
 
             modelBuilder.Entity("BillingApp.Models.Client", b =>

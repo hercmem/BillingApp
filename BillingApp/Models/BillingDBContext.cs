@@ -92,6 +92,10 @@ public partial class BillingDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("phoneNumber");
 
+            entity.Property(e => e.IsPaid)
+                .HasColumnName("IsPaid")
+                .HasDefaultValue(false);
+
             entity.HasOne(d => d.PhoneNumberNavigation).WithMany(p => p.Bills)
                 .HasForeignKey(d => d.PhoneNumber)
                 .OnDelete(DeleteBehavior.ClientSetNull)
