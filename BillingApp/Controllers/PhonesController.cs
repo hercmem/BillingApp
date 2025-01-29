@@ -159,5 +159,63 @@ namespace BillingApp.Controllers
         {
             return _context.Phones.Any(e => e.PhoneNumber == id);
         }
+
+        // GET: Show Change Program Form
+        [HttpGet]
+        public async Task<IActionResult> ChangeClientProgram(string phoneNumber)
+        {
+            if (string.IsNullOrEmpty(phoneNumber))
+            {
+                return NotFound("Phone number is required.");
+            }
+
+            var phone = await _context.Phones
+                .FirstOrDefaultAsync(p => p.PhoneNumber == phoneNumber);
+
+            if (phone == null)
+            {
+                return NotFound("Phone number not found.");
+            }
+
+            var availablePrograms = await _context.PhonePrograms
+                .Select(p => new SelectListItem { Value = p.ProgramName, Text = p.ProgramName })
+                .ToListAsync();
+
+            ViewData["ProgramNames"] = availablePrograms;
+
+            var model = new ChangeClientProgramViewModel
+            {
+                PhoneNumber = phone.PhoneNumber,
+                ProgramName = phone.ProgramName
+            };
+
+            return View(model);
+        }
+
+        // POST: Update Program
+        [HttpPost]
+        public async Task<IActionResult> ChangeClientProgram(ChangeClientProgramViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var phone = await _context.Phones
+                .FirstOrDefaultAsync(p => p.PhoneNumber == model.PhoneNumber);
+
+            if (phone == null)
+            {
+                return NotFound("Phone number not found.");
+            }
+
+            // Update program name
+            phone.ProgramName = model.ProgramName;
+            await _context.SaveChangesAsync();
+
+            // Redirect back to ClientList
+            return RedirectToAction("ClientList", "Sellers");
+        }
+
     }
 }

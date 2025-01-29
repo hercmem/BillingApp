@@ -31,6 +31,11 @@
                         Issue a Customer Bill
                     </a>
                 </td>
+                <td>
+                    <a asp-controller="Phones" asp-action="ChangeClientProgram" asp-route-phoneNumber="@client.PhoneNumber" class="btn btn-primary">
+                        Change Client Program
+                    </a>
+                </td>
             </tr>
         }
     </tbody>

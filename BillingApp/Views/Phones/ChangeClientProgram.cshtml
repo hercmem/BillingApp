@@ -1,0 +1,24 @@
+﻿@model BillingApp.Models.ChangeClientProgramViewModel
+
+@{
+    ViewData["Title"] = "Change Client Program";
+}
+
+<h2>Change Client Program</h2>
+
+<form asp-action="ChangeClientProgram" asp-controller="Phones" method="post">
+    <div class="form-group">
+        <label>Phone Number</label>
+        <input asp-for="PhoneNumber" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Program Name</label>
+        <select asp-for="ProgramName" class="form-control" asp-items="@(ViewData["ProgramNames"] as List<SelectListItem>)">
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+<a asp-action="ClientList" asp-controller="Sellers" class="btn btn-secondary">Back to Client List</a>
