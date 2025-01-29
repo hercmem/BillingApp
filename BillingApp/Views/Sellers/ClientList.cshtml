@@ -26,6 +26,11 @@
                 <td>@client.User.FullName</td> <!-- Access FullName from the related AppUser -->
                 <td>@client.User.Username</td> <!-- Access Username from the related AppUser -->
                 <td>@client.PhoneNumber</td>  <!-- Access PhoneNumber from Client -->
+                <td>
+                    <a asp-controller="Bills" asp-action="IssueBill" asp-route-phoneNumber="@client.PhoneNumber" class="btn btn-warning">
+                        Issue a Customer Bill
+                    </a>
+                </td>
             </tr>
         }
     </tbody>

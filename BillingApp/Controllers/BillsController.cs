@@ -161,7 +161,50 @@ namespace BillingApp.Controllers
         }
 
 
-        
+        [HttpGet]
+        public async Task<IActionResult> IssueBill(string phoneNumber)
+        {
+            var phone = await _context.Phones
+                .Include(p => p.ProgramNameNavigation) // Include the related PhoneProgram
+                .FirstOrDefaultAsync(p => p.PhoneNumber == phoneNumber);
+
+            if (phone == null || phone.ProgramNameNavigation == null)
+            {
+                return NotFound("Phone number or associated program not found.");
+            }
+
+            var model = new IssueBillViewModel
+            {
+                PhoneNumber = phone.PhoneNumber,
+                ProgramName = phone.ProgramNameNavigation.ProgramName, // Retrieve Program Name
+                IsPaid = false // Default to unpaid
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> IssueBill(IssueBillViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var newBill = new Bill
+                {
+                    PhoneNumber = model.PhoneNumber,
+                    Costs = model.Cost, // Ensure correct property mapping
+                    IsPaid = model.IsPaid
+                };
+
+                _context.Bills.Add(newBill);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("ClientList", "Sellers"); // Redirect back to client list
+            }
+
+            return View(model);
+        }
+
+
 
     }
 }
