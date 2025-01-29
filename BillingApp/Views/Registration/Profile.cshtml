@@ -23,6 +23,7 @@
         <th>Property</th>
         <td>@Model.Property</td>
     </tr>
+
     @if (Model.Property == "client" && Model.AdditionalInfo != null)
     {
         <tr>
@@ -38,16 +39,23 @@
             <td>@Model.AdditionalInfo.ProgramName</td>
         </tr>
     }
+    else if (Model.Property == "seller")
+    {
+        <tr>
+            <th>Additional Info</th>
+            <td>No additional info for sellers.</td>
+        </tr>
+    }
 </table>
 
-<a asp-controller="Calls" asp-action="CallHistory" asp-route-phoneNumber="@Model.AdditionalInfo.PhoneNumber" class="btn btn-primary">
-    View Call History
-</a>
+@if (Model.Property == "client" && Model.AdditionalInfo != null)
+{
+    <a asp-controller="Calls" asp-action="CallHistory" asp-route-phoneNumber="@Model.AdditionalInfo.PhoneNumber" class="btn btn-primary">
+        View Call History
+    </a>
+}
 
 <div>
     <!-- Other profile content -->
     <a href="@Url.Action("ViewClientBills", "Clients", new { userId = Model.UserId })" class="btn btn-primary">View Client Bills</a>
-
 </div>
-
-

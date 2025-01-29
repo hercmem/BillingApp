@@ -159,5 +159,16 @@ namespace BillingApp.Controllers
         {
             return _context.Sellers.Any(e => e.SellerId == id);
         }
+
+        public async Task<IActionResult> ClientList()
+        {
+            var clients = await _context.Clients
+                .Include(c => c.User) // Include related AppUser for FullName, Username
+                .ToListAsync();
+            // Fetch all clients
+            
+
+            return View(clients);
+        }
     }
 }

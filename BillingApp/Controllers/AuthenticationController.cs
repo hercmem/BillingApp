@@ -31,6 +31,11 @@ namespace BillingApp.Controllers
                 {
                     return RedirectToAction("Profile", "Registration", new { id = user.UserId });
                 }
+                else if (user.Property == "seller")
+                {
+                    // Redirect to the Seller's client list page
+                    return RedirectToAction("ClientList", "Sellers");
+                }
                 // Redirect to the personalized page
                 return RedirectToAction("Greeting", new { firstName = user.FirstName });
             }

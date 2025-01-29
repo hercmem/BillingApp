@@ -1,0 +1,27 @@
+﻿@model IEnumerable<BillingApp.Models.Client>
+
+@{
+    ViewData["Title"] = "Client List";
+}
+
+<h1>Client List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Username</th>
+            <th>Phone Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var client in Model)
+        {
+            <tr>
+                <td>@client.User.FullName</td> <!-- Access FullName from the related AppUser -->
+                <td>@client.User.Username</td> <!-- Access Username from the related AppUser -->
+                <td>@client.PhoneNumber</td>  <!-- Access PhoneNumber from Client -->
+            </tr>
+        }
+    </tbody>
+</table>
