@@ -4,60 +4,71 @@
     ViewData["Title"] = "Register New Client";
 }
 
-<h2>Register a New Client</h2>
+<div class="container my-4">
+    <!-- Header -->
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
 
-<form asp-action="RegisterClient" asp-controller="Clients" method="post">
-    <div>
-        <label>First Name</label>
-        <input asp-for="FirstName" required />
+    <!-- Registration Form -->
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <form asp-action="RegisterClient" asp-controller="Clients" method="post">
+                <div class="form-group">
+                    <label for="FirstName">First Name</label>
+                    <input asp-for="FirstName" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="LastName">Last Name</label>
+                    <input asp-for="LastName" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input asp-for="Email" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="Username">Username</label>
+                    <input asp-for="Username" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="Password">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="Property">Property</label>
+                    <input asp-for="Property" class="form-control" value="client" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label for="Afm">AFM</label>
+                    <input asp-for="Afm" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="PhoneNumber">Phone Number</label>
+                    <input asp-for="PhoneNumber" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="ProgramName">Program Name</label>
+                    <select asp-for="ProgramName" class="form-control" required>
+                        @foreach (var program in ViewBag.ProgramNames as List<string>)
+                        {
+                            <option value="@program">@program</option>
+                        }
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block">Submit</button>
+            </form>
+        </div>
     </div>
 
-    <div>
-        <label>Last Name</label>
-        <input asp-for="LastName" required />
+    <!-- Back Button -->
+    <div class="text-center mt-3">
+        <a asp-action="ClientList" asp-controller="Sellers" class="btn btn-secondary">Back to Client List</a>
     </div>
-
-    <div>
-        <label>Email</label>
-        <input asp-for="Email" required />
-    </div>
-
-    <div>
-        <label>Username</label>
-        <input asp-for="Username" required />
-    </div>
-
-    <div>
-        <label>Password</label>
-        <input asp-for="Password" type="password" required />
-    </div>
-
-    <div>
-        <label>Property</label>
-        <input asp-for="Property" value="client" readonly />
-    </div>
-
-    <div>
-        <label>AFM</label>
-        <input asp-for="Afm" required />
-    </div>
-
-    <div>
-        <label>Phone Number</label>
-        <input asp-for="PhoneNumber" required />
-    </div>
-
-    <div>
-        <label>Program Name</label>
-        <select asp-for="ProgramName" required>
-            @foreach (var program in ViewBag.ProgramNames as List<string>)
-            {
-                <option value="@program">@program</option>
-            }
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-success">Submit</button>
-</form>
-
-<a asp-action="ClientList" asp-controller="Sellers" class="btn btn-secondary">Back to Client List</a>
+</div>

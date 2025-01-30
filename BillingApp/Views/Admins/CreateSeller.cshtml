@@ -4,38 +4,55 @@
     ViewData["Title"] = "Create Seller";
 }
 
-<h2>Create New Seller</h2>
+<div class="container my-4">
+    <!-- Create Seller Card -->
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h4>@ViewData["Title"]</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="CreateSeller" asp-controller="Admins" method="post">
+                <div class="mb-3">
+                    <label for="FirstName" class="form-label">First Name</label>
+                    <input asp-for="FirstName" class="form-control" required />
+                </div>
 
-<form asp-action="CreateSeller" asp-controller="Admins" method="post">
-    <div>
-        <label>First Name</label>
-        <input asp-for="FirstName" required />
+                <div class="mb-3">
+                    <label for="LastName" class="form-label">Last Name</label>
+                    <input asp-for="LastName" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" type="email" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="Username" class="form-label">Username</label>
+                    <input asp-for="Username" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="Password" class="form-label">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="Property" class="form-label">Property</label>
+                    <input asp-for="Property" value="seller" class="form-control" readonly />
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Create Seller</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <div>
-        <label>Last Name</label>
-        <input asp-for="LastName" required />
+    <!-- Back to Admin Dashboard Button -->
+    <div class="text-center my-3">
+        <a href="@Url.Action("AdminDashboard", "Admins")" class="btn btn-secondary">
+            Back to Dashboard
+        </a>
     </div>
-
-    <div>
-        <label>Email</label>
-        <input asp-for="Email" type="email" required />
-    </div>
-
-    <div>
-        <label>Username</label>
-        <input asp-for="Username" required />
-    </div>
-
-    <div>
-        <label>Password</label>
-        <input asp-for="Password" type="password" required />
-    </div>
-
-    <div>
-        <label>Property</label>
-        <input asp-for="Property" value="seller" readonly />
-    </div>
-
-    <button type="submit">Create Seller</button>
-</form>
+</div>

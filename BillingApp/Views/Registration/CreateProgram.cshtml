@@ -4,25 +4,40 @@
     ViewData["Title"] = "Create New Program";
 }
 
-<h2>Create New Program</h2>
+<div class="container my-4">
+    <!-- Create New Program Card -->
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h4>@ViewData["Title"]</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="CreateProgram" asp-controller="Registration" method="post">
+                <div class="mb-3">
+                    <label for="ProgramName" class="form-label">Program Name</label>
+                    <input asp-for="ProgramName" class="form-control" required />
+                </div>
 
-<form asp-action="CreateProgram" asp-controller="Registration" method="post">
-    <div class="form-group">
-        <label for="ProgramName">Program Name</label>
-        <input asp-for="ProgramName" class="form-control" required />
+                <div class="mb-3">
+                    <label for="Benfits" class="form-label">Benefits</label>
+                    <textarea asp-for="Benfits" class="form-control" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="Charge" class="form-label">Charge (€)</label>
+                    <input asp-for="Charge" class="form-control" type="number" step="0.01" required />
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="Benfits">Benefits</label>
-        <textarea asp-for="Benfits" class="form-control" required></textarea>
+    <!-- Cancel Button -->
+    <div class="text-center my-3">
+        <a asp-action="AdminDashboard" asp-controller="Admins" class="btn btn-secondary">
+            Cancel
+        </a>
     </div>
-
-    <div class="form-group">
-        <label for="Charge">Charge (€)</label>
-        <input asp-for="Charge" class="form-control" type="number" step="0.01" required />
-    </div>
-
-    <button type="submit" class="btn btn-success">Submit</button>
-</form>
-
-<a asp-action="AdminDashboard" asp-controller="Admins" class="btn btn-secondary">Cancel</a>
+</div>

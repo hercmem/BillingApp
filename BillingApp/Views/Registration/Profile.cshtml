@@ -4,58 +4,73 @@
     ViewData["Title"] = "Profile";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2 class="text-center my-4">@ViewData["Title"]</h2>
 
-<table class="table table-bordered">
-    <tr>
-        <th>First Name</th>
-        <td>@Model.FirstName</td>
-    </tr>
-    <tr>
-        <th>Last Name</th>
-        <td>@Model.LastName</td>
-    </tr>
-    <tr>
-        <th>Username</th>
-        <td>@Model.Username</td>
-    </tr>
-    <tr>
-        <th>Property</th>
-        <td>@Model.Property</td>
-    </tr>
+<div class="container">
+    <!-- Profile Card -->
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h4>Profile Details</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th>First Name</th>
+                        <td>@Model.FirstName</td>
+                    </tr>
+                    <tr>
+                        <th>Last Name</th>
+                        <td>@Model.LastName</td>
+                    </tr>
+                    <tr>
+                        <th>Username</th>
+                        <td>@Model.Username</td>
+                    </tr>
+                    <tr>
+                        <th>Property</th>
+                        <td>@Model.Property</td>
+                    </tr>
 
-    @if (Model.Property == "client" && Model.AdditionalInfo != null)
-    {
-        <tr>
-            <th>AFM</th>
-            <td>@Model.AdditionalInfo.Afm</td>
-        </tr>
-        <tr>
-            <th>Phone Number</th>
-            <td>@Model.AdditionalInfo.PhoneNumber</td>
-        </tr>
-        <tr>
-            <th>Phone Program</th>
-            <td>@Model.AdditionalInfo.ProgramName</td>
-        </tr>
-    }
-    else if (Model.Property == "seller")
-    {
-        <tr>
-            <th>Additional Info</th>
-            <td>No additional info for sellers.</td>
-        </tr>
-    }
-</table>
+                    @if (Model.Property == "client" && Model.AdditionalInfo != null)
+                    {
+                        <tr>
+                            <th>AFM</th>
+                            <td>@Model.AdditionalInfo.Afm</td>
+                        </tr>
+                        <tr>
+                            <th>Phone Number</th>
+                            <td>@Model.AdditionalInfo.PhoneNumber</td>
+                        </tr>
+                        <tr>
+                            <th>Phone Program</th>
+                            <td>@Model.AdditionalInfo.ProgramName</td>
+                        </tr>
+                    }
+                    else if (Model.Property == "seller")
+                    {
+                        <tr>
+                            <th>Additional Info</th>
+                            <td>No additional info for sellers.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer text-center">
+            @if (Model.Property == "client" && Model.AdditionalInfo != null)
+            {
+                <a asp-controller="Calls" asp-action="CallHistory" asp-route-phoneNumber="@Model.AdditionalInfo.PhoneNumber" class="btn btn-outline-primary mb-3">
+                    View Call History
+                </a>
+            }
 
-@if (Model.Property == "client" && Model.AdditionalInfo != null)
-{
-    <a asp-controller="Calls" asp-action="CallHistory" asp-route-phoneNumber="@Model.AdditionalInfo.PhoneNumber" class="btn btn-primary">
-        View Call History
-    </a>
-}
-
-<div>
-    <!-- Other profile content -->
-    <a href="@Url.Action("ViewClientBills", "Clients", new { userId = Model.UserId })" class="btn btn-primary">View Client Bills</a>
+            <a href="@Url.Action("ViewClientBills", "Clients", new { userId = Model.UserId })" class="btn btn-outline-primary">
+                View Client Bills
+            </a>
+        </div>
+    </div>
 </div>
+
+<!-- Additional margin at the bottom -->
+<div class="my-4"></div>

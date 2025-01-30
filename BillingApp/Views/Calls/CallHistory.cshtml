@@ -1,10 +1,41 @@
-﻿@model IEnumerable<string>
+﻿@using X.PagedList.Mvc.Core
 
-<h2>Call History</h2>
+@model X.PagedList.IPagedList<string>
 
-<ul class="list-group">
-    @foreach (var description in Model)
-    {
-        <li class="list-group-item">@description</li>
-    }
-</ul>
+<div class="container my-4">
+    <!-- Call History Card -->
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h4>Call History</h4>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                @foreach (var description in Model.Select((value, index) => new { value, index }))
+                {
+                    <li class="list-group-item @((description.index % 2 == 0) ? "bg-light" : "bg-white")">
+                        @description.value
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <!-- Pagination Control -->
+        <div class="card-footer text-center">
+            <nav>
+                @Html.PagedListPager(Model, page => Url.Action("CallHistory", new { phoneNumber = ViewData["PhoneNumber"], page = page }), new X.PagedList.Mvc.Core.PagedListRenderOptions()
+           {
+               ActiveLiElementClass = "Active",
+               PageClasses = new[] { "page-link" },
+               LiElementClasses = new[] { "page-item" },
+               UlElementClasses = new[] { "pagination", "justify-content-center", "mt-3" },
+               LinkToNextPageFormat = "Next",
+               LinkToPreviousPageFormat = "Previous",
+               MaximumPageNumbersToDisplay = 5,
+               DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+               DisplayLinkToNextPage = PagedListDisplayMode.Always,
+           })
+            </nav>
+        </div>
+    </div>
+</div>
+

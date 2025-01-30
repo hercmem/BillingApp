@@ -4,29 +4,40 @@
     ViewData["Title"] = "Issue a Customer Bill";
 }
 
-<h2>Issue a Customer Bill</h2>
+<div class="container my-4">
+    <!-- Header -->
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
 
-<form asp-action="IssueBill" asp-controller="Bills" method="post">
-    <div>
-        <label>Program Name</label>
-        <input asp-for="ProgramName" class="form-control" readonly />
+    <!-- Bill Issue Form -->
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <form asp-action="IssueBill" asp-controller="Bills" method="post">
+                <div class="form-group">
+                    <label for="ProgramName">Program Name</label>
+                    <input asp-for="ProgramName" class="form-control" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label for="PhoneNumber">Phone Number</label>
+                    <input asp-for="PhoneNumber" class="form-control" readonly />
+                </div>
+
+                <div hidden>
+                    <input asp-for="IsPaid" value="false" />
+                </div>
+
+                <div class="form-group">
+                    <label for="Cost">Cost (€)</label>
+                    <input asp-for="Cost" type="number" step="0.01" class="form-control" required />
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block">Submit</button>
+            </form>
+        </div>
     </div>
 
-    <div>
-        <label>Phone Number</label>
-        <input asp-for="PhoneNumber" class="form-control" readonly />
+    <!-- Back Button -->
+    <div class="text-center mt-3">
+        <a asp-action="ClientList" asp-controller="Sellers" class="btn btn-secondary">Back to Client List</a>
     </div>
-
-    <div hidden>
-        <input asp-for="IsPaid" value="false" />
-    </div>
-
-    <div>
-        <label>Cost (€)</label>
-        <input asp-for="Cost" type="number" step="0.01" class="form-control" required />
-    </div>
-
-    <button type="submit" class="btn btn-success">Submit</button>
-</form>
-
-<a asp-action="ClientList" asp-controller="Sellers" class="btn btn-secondary">Back to Client List</a>
+</div>

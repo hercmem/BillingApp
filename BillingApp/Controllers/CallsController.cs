@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BillingApp.Models;
+using X.PagedList.Extensions;
 
 namespace BillingApp.Controllers
 {
@@ -154,29 +155,46 @@ namespace BillingApp.Controllers
         }
 
 
-        public async Task<IActionResult> CallHistory(string phoneNumber)
+        public IActionResult CallHistory(string phoneNumber, int? page)
         {
             if (string.IsNullOrEmpty(phoneNumber))
             {
                 return NotFound("Phone number is required.");
             }
 
+            // Store the phone number in ViewData to persist it during pagination
+            ViewData["PhoneNumber"] = phoneNumber;
+
             // Fetch only the descriptions for the given phone number
-            var callDescriptions = await _context.BillsCalls
+            var callDescriptionsQuery = _context.BillsCalls
                 .Include(bc => bc.Call)
                 .Include(bc => bc.Bill)
                 .ThenInclude(b => b.PhoneNumberNavigation)
                 .Where(bc => bc.Bill.PhoneNumber == phoneNumber)
                 .Select(bc => bc.Call.Description)
-                .ToListAsync();
+                .AsQueryable();
 
-            if (!callDescriptions.Any())
+            // Pagination logic
+            int pageSize = 10; // Set the number of items per page
+            int pageNumber = (page ?? 1); // Default to page 1 if the page parameter is null
+
+            // Get the paginated result
+            var paginatedCallDescriptions = callDescriptionsQuery.ToPagedList(pageNumber, pageSize);
+
+            if (!paginatedCallDescriptions.Any())
             {
                 return NotFound("No call history found for this phone number.");
             }
 
-            return View(callDescriptions);
+            var client =  _context.Clients
+                .Where(c => c.PhoneNumber == phoneNumber)
+                .FirstOrDefaultAsync();
+
+
+            return View(paginatedCallDescriptions);
         }
+
+
 
 
     }

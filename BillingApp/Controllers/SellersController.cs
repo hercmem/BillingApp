@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BillingApp.Models;
+using X.PagedList.Extensions;
 
 namespace BillingApp.Controllers
 {
@@ -160,15 +161,32 @@ namespace BillingApp.Controllers
             return _context.Sellers.Any(e => e.SellerId == id);
         }
 
-        public async Task<IActionResult> ClientList()
+        public IActionResult ClientList(int? page, string? search)
         {
-            var clients = await _context.Clients
-                .Include(c => c.User) // Include related AppUser for FullName, Username
-                .ToListAsync();
-            // Fetch all clients
-            
+            // Set the search term for later use in the View
+            ViewData["CurrentFilter"] = search;
 
-            return View(clients);
+            var clients = _context.Clients
+                .Include(c => c.User) // Include related AppUser for FullName, Username
+                .AsQueryable();
+
+            // Apply search filter if provided
+            if (!String.IsNullOrEmpty(search))
+            {
+                clients = clients.Where(c => c.User.FullName.StartsWith(search) ||
+                                              c.User.Username.StartsWith(search) ||
+                                              c.PhoneNumber.StartsWith(search));
+            }
+
+            // Pagination
+            int pageSize = 10; // Set your desired page size
+            int pageNumber = (page ?? 1); // Default to page 1 if page parameter is null
+
+            // Use PagedList to create paginated result
+            var paginatedClients =  clients.ToPagedList(pageNumber, pageSize);
+
+            return View(paginatedClients);
         }
+
     }
 }

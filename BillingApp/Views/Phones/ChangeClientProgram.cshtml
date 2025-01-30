@@ -4,21 +4,33 @@
     ViewData["Title"] = "Change Client Program";
 }
 
-<h2>Change Client Program</h2>
+<div class="container my-4">
+    <!-- Header -->
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
 
-<form asp-action="ChangeClientProgram" asp-controller="Phones" method="post">
-    <div class="form-group">
-        <label>Phone Number</label>
-        <input asp-for="PhoneNumber" class="form-control" readonly />
+    <!-- Program Change Form -->
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <form asp-action="ChangeClientProgram" asp-controller="Phones" method="post">
+                <div class="form-group">
+                    <label for="PhoneNumber">Phone Number</label>
+                    <input asp-for="PhoneNumber" class="form-control" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label for="ProgramName">Program Name</label>
+                    <select asp-for="ProgramName" class="form-control" asp-items="@(ViewData["ProgramNames"] as List<SelectListItem>)" required>
+                        <option value="">Select Program</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block">Submit</button>
+            </form>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label>Program Name</label>
-        <select asp-for="ProgramName" class="form-control" asp-items="@(ViewData["ProgramNames"] as List<SelectListItem>)">
-        </select>
+    <!-- Back Button -->
+    <div class="text-center mt-3">
+        <a asp-action="ClientList" asp-controller="Sellers" class="btn btn-secondary">Back to Client List</a>
     </div>
-
-    <button type="submit" class="btn btn-success">Submit</button>
-</form>
-
-<a asp-action="ClientList" asp-controller="Sellers" class="btn btn-secondary">Back to Client List</a>
+</div>
