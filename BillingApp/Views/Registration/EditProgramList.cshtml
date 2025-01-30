@@ -1,0 +1,29 @@
+﻿@model IEnumerable<BillingApp.Models.PhoneProgram>
+
+@{
+    ViewData["Title"] = "Edit Program List";
+}
+
+<h2>Edit Program</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Program Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var program in Model)
+        {
+            <tr>
+                <td>@program.ProgramName</td>
+                <td>
+                    <a asp-action="EditProgram" asp-controller="Registration" asp-route-id="@program.ProgramName" class="btn btn-primary">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="AdminDashboard" asp-controller="Admins" class="btn btn-secondary">Back</a>

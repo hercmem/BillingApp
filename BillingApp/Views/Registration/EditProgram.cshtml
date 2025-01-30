@@ -1,0 +1,30 @@
+﻿@model BillingApp.Models.PhoneProgram
+
+@{
+    ViewData["Title"] = "Edit Program";
+}
+
+<h2>Edit Program</h2>
+
+<form asp-action="EditProgram" asp-controller="Registration" method="post">
+    <input type="hidden" asp-for="ProgramName" /> <!-- Hidden field to track program -->
+
+    <div class="form-group">
+        <label for="ProgramName">Program Name</label>
+        <input asp-for="ProgramName" class="form-control" readonly /> <!-- Readonly to prevent name change -->
+    </div>
+
+    <div class="form-group">
+        <label for="Benfits">Benefits</label>
+        <textarea asp-for="Benfits" class="form-control" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="Charge">Charge (€)</label>
+        <input asp-for="Charge" class="form-control" type="number" step="0.01" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Save Changes</button>
+</form>
+
+<a asp-action="EditProgramList" asp-controller="Registration" class="btn btn-secondary">Cancel</a>

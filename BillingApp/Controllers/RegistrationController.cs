@@ -179,5 +179,48 @@ namespace BillingApp.Controllers
             return View(model);
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> EditProgramList()
+        {
+            var programs = await _context.PhonePrograms.ToListAsync();
+            return View(programs);
+        }
+
+        // GET: Load specific program details for editing
+        [HttpGet]
+        public async Task<IActionResult> EditProgram(string id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var program = await _context.PhonePrograms.FindAsync(id);
+            if (program == null)
+                return NotFound();
+
+            return View(program);
+        }
+
+        // POST: Save updated program details
+        [HttpPost]
+        public async Task<IActionResult> EditProgram(PhoneProgram model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var existingProgram = await _context.PhonePrograms.FindAsync(model.ProgramName);
+            if (existingProgram == null)
+                return NotFound();
+
+            // Update fields
+            existingProgram.Benfits = model.Benfits;
+            existingProgram.Charge = model.Charge;
+
+            _context.Update(existingProgram);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("EditProgramList"); // Go back to program list
+        }
+
     }
 }
