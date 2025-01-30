@@ -1,0 +1,28 @@
+﻿@model BillingApp.Models.PhoneProgram
+
+@{
+    ViewData["Title"] = "Create New Program";
+}
+
+<h2>Create New Program</h2>
+
+<form asp-action="CreateProgram" asp-controller="Registration" method="post">
+    <div class="form-group">
+        <label for="ProgramName">Program Name</label>
+        <input asp-for="ProgramName" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Benfits">Benefits</label>
+        <textarea asp-for="Benfits" class="form-control" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="Charge">Charge (€)</label>
+        <input asp-for="Charge" class="form-control" type="number" step="0.01" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+<a asp-action="AdminDashboard" asp-controller="Admins" class="btn btn-secondary">Cancel</a>

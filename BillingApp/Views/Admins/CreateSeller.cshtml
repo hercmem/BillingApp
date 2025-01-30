@@ -1,0 +1,41 @@
+﻿@model BillingApp.Models.AppUser
+
+@{
+    ViewData["Title"] = "Create Seller";
+}
+
+<h2>Create New Seller</h2>
+
+<form asp-action="CreateSeller" asp-controller="Admins" method="post">
+    <div>
+        <label>First Name</label>
+        <input asp-for="FirstName" required />
+    </div>
+
+    <div>
+        <label>Last Name</label>
+        <input asp-for="LastName" required />
+    </div>
+
+    <div>
+        <label>Email</label>
+        <input asp-for="Email" type="email" required />
+    </div>
+
+    <div>
+        <label>Username</label>
+        <input asp-for="Username" required />
+    </div>
+
+    <div>
+        <label>Password</label>
+        <input asp-for="Password" type="password" required />
+    </div>
+
+    <div>
+        <label>Property</label>
+        <input asp-for="Property" value="seller" readonly />
+    </div>
+
+    <button type="submit">Create Seller</button>
+</form>

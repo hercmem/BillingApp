@@ -159,5 +159,36 @@ namespace BillingApp.Controllers
         {
             return _context.Admins.Any(e => e.AdminId == id);
         }
+
+
+        [HttpGet]
+        public IActionResult AdminDashboard()
+        {
+            return View("~/Views/Admins/AdminDashboard.cshtml"); // Ensure correct path
+        }
+
+        [HttpGet]
+        public IActionResult CreateSeller()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateSeller(AppUser model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.Property = "seller";
+                _context.AppUsers.Add(model);
+                await _context.SaveChangesAsync();
+
+                var seller = new Seller { UserId = model.UserId };
+                _context.Sellers.Add(seller);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("AdminDashboard");
+            }
+            return View(model);
+        }
     }
 }

@@ -36,6 +36,10 @@ namespace BillingApp.Controllers
                     // Redirect to the Seller's client list page
                     return RedirectToAction("ClientList", "Sellers");
                 }
+                else if (user.Property == "admin")
+                {
+                    return RedirectToAction("AdminDashboard", "Admins");
+                }
                 // Redirect to the personalized page
                 return RedirectToAction("Greeting", new { firstName = user.FirstName });
             }
