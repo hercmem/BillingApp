@@ -18,23 +18,17 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                   
+
+                    <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Registration" asp-action="Register">Register</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="AppUsers" asp-action="Index">App users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Admins" asp-action="Index">Admins</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Sellers" asp-action="Index">Sellers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
+                            <a class="nav-link" asp-area="" asp-controller="Authentication" asp-action="Login">Login</a>
                         </li>
                     </ul>
+
                 </div>
                 <form asp-action="Index" method="get">
                     <input class="form-control" type="text" placeholder="Search" name="search" value="@ViewData["CurrentFilter"]" aria-label="Search">

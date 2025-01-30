@@ -1,20 +1,46 @@
 ﻿@model BillingApp.Models.LoginViewModel
 
-<form asp-action="Login" asp-controller="Authentication" method="post">
-    <div>
-        <label>Username</label>
-        <input asp-for="Username" />
+@{
+    ViewData["Title"] = "Log In";
+    Layout = "_Layout";  // Adjust this if necessary to match your layout.
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-lg-4">
+        <section class="p-4 border rounded shadow-sm">
+            <h2 class="text-center">Welcome Back!</h2>
+            <hr />
+
+            <!-- Display error message if any -->
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <p class="text-danger text-center">@ViewBag.ErrorMessage</p>
+            }
+
+            <form asp-action="Login" asp-controller="Authentication" method="post">
+                <!-- Username Field -->
+                <div class="form-floating mb-3">
+                    <input asp-for="Username" class="form-control" id="Username" placeholder="Username" required />
+                    <label for="Username">Username</label>
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-floating mb-3">
+                    <input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Password" required />
+                    <label for="Password">Password</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <!-- Login Button -->
+                <div>
+                    <button type="submit" class="w-100 btn btn-lg btn-primary">Login</button>
+                </div>
+            </form>
+        </section>
     </div>
+</div>
 
-    <div>
-        <label>Password</label>
-        <input asp-for="Password" type="password" />
-    </div>
-
-    <button type="submit">Login</button>
-</form>
-
-@if (ViewBag.ErrorMessage != null)
-{
-    <p style="color: red;">@ViewBag.ErrorMessage</p>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

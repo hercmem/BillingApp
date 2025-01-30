@@ -1,85 +1,97 @@
 ﻿@model BillingApp.Models.AppUser
 
-<form asp-action="Register" asp-controller="Registration" method="post">
-    <div>
-        <label>First Name</label>
-        <input asp-for="FirstName" />
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="d-flex justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <form asp-action="Register" asp-controller="Registration" method="post" class="p-4 shadow rounded bg-light">
+            <h2 class="text-center mb-3">Create an Account</h2>
+            <hr />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <div class="row g-2">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+                        <label for="FirstName">First Name</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+                        <label for="LastName">Last Name</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <label for="Email">Email</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Username" class="form-control" placeholder="Username" />
+                <label for="Username">Username</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                <label for="Password">Password</label>
+            </div>
+
+            <div class="mb-3">
+                <label for="Property" class="form-label">Select Role</label>
+                <select asp-for="Property" class="form-select">
+                    <option value="admin">Admin</option>
+                    <option value="client">Client</option>
+                    <option value="seller">Seller</option>
+                </select>
+            </div>
+
+            <div id="clientFields" style="display:none;">
+                <div class="form-floating mb-3">
+                    <input type="text" id="AFM" name="afm" class="form-control" placeholder="AFM" />
+                    <label for="AFM">AFM</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" id="PhoneNumber" name="phoneNumber" class="form-control" placeholder="Phone Number" />
+                    <label for="PhoneNumber">Phone Number</label>
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="ProgramName" class="form-label">Program Name</label>
+                    <select id="ProgramName" name="programName" class="form-select">
+                        @if (ViewBag.ProgramNames != null)
+                        {
+                            foreach (var program in (List<string>)ViewBag.ProgramNames)
+                            {
+                                <option value="@program">@program</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+
+
+
+
+            </div>
+
+            <button type="submit" class="w-100 btn btn-primary mt-3">Register</button>
+        </form>
     </div>
+</div>
 
-    <div>
-        <label>Last Name</label>
-        <input asp-for="LastName" />
-    </div>
-
-    <div>
-        <label>Email</label>
-        <input asp-for="Email" />
-    </div>
-
-    <div>
-        <label>Username</label>
-        <input asp-for="Username" />
-    </div>
-
-    <div>
-        <label>Password</label>
-        <input asp-for="Password" type="password" />
-    </div>
-
-    <div>
-        <label>Property</label>
-        <select asp-for="Property">
-            <option value="admin">admin</option>
-            <option value="client">client</option>
-            <option value="seller">seller</option>
-        </select>
-    </div>
-
-    <!-- Client-specific fields -->
-    <div id="clientFields" style="display:none;">
-        <div>
-            <label>AFM</label>
-            <input type="text" id="AFM" name="afm" />
-        </div>
-
-        <div>
-            <label>Phone Number</label>
-            <input type="text" id="PhoneNumber" name="phoneNumber" />
-        </div>
-
-        <div>
-            <label>Program Name</label>
-            <select id="ProgramName" name="programName">
-                @if (ViewBag.ProgramNames != null)
-                {
-                    foreach (var program in (List<string>)ViewBag.ProgramNames)
-                    {
-                        <option value="@program">@program</option>
-                    }
-                }
-            </select>
-
-        </div>
-    </div>
-
-    <button type="submit">Register</button>
-</form>
-
-<script>
-    const propertySelect = document.querySelector('[name="Property"]');
-    const clientFields = document.getElementById('clientFields');
-
-    propertySelect.addEventListener('change', function () {
-        if (this.value === 'client') {
-            clientFields.style.display = 'block';
-        } else {
-            clientFields.style.display = 'none';
-
-            // Clear client-specific fields
-            document.getElementById('AFM').value = '';
-            document.getElementById('PhoneNumber').value = '';
-            document.getElementById('ProgramName').selectedIndex = 0;
-        }
-    });
-</script>
-
+@section Scripts {
+    <script>
+        document.querySelector('[name="Property"]').addEventListener('change', function () {
+            let clientFields = document.getElementById('clientFields');
+            clientFields.style.display = this.value === 'client' ? 'block' : 'none';
+        });
+    </script>
+}
